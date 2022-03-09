@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import RandExp from 'randexp';
-import GlobalFonts from './fonts/fonts'
+import GlobalFonts from './fonts/fonts';
 
 function App() {
 
@@ -44,11 +44,8 @@ function App() {
     color: white;
     padding: 0 0.6rem;
     margin: 0;
-    background-color: ${ReactBootstrapH4};
-    /* background-color: #1387E1;
-    background-color: #FF3131;
-    background-color: #FF932E; */
-    /* -webkit-text-stroke: 0.1px black; */
+    background-color: ${props => props.bg == "blue" ? '#1387E1' : props.bg == "red" ? '#FF3131' : props.bg == "orange" ? '#FF932E' : "#242424"};
+    -webkit-text-stroke: ${props => props.legacy ? '0.6px black' : 0};
   `
   //gun icon
   const gunImage = ({src, className, children}) => {
@@ -76,9 +73,10 @@ function App() {
       <Title>Barcode Name Generator</Title>
       <Subtitle>Generate bullshit barcode names like this</Subtitle>
       <KillFeed>
-        <R6Name bg={'#FF3131'}>{new RandExp('^[Il]{10,16}$').gen()}</R6Name>
+        <R6Name legacy bg={'orange'}>{new RandExp('^[Il]{10,16}$').gen()}</R6Name>
         <GunIcon src="https://static.wikia.nocookie.net/rainbowsix/images/d/d1/R4C_HUD_Icon_R6S.png"></GunIcon>
       </KillFeed>
+      <input type="checkbox" />
     </Container>
   )
 }
