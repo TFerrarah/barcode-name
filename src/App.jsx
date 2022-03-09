@@ -5,10 +5,10 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import { InputGroup } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import Spinner from 'react-bootstrap/Spinner'
+import Spinner from "react-bootstrap/Spinner";
 
 import React, { useState } from "react";
-import AdSense from 'react-adsense';
+import AdSense from "react-adsense";
 
 function App() {
   const Container = styled.div`
@@ -98,13 +98,12 @@ function App() {
   const [isLoading, setLoading] = useState(false);
 
   function updateUsername() {
-    
     //StatsDB check
 
     let userId = "1726831700015439";
     let password = "e82e21dd203c0454c4a2420a2f904cda";
     let usernameToSearch = new RandExp("^[Il]{10,16}$").gen();
-    console.log('username to search: '+usernameToSearch);
+    console.log("username to search: " + usernameToSearch);
 
     let token = btoa(userId + ":" + password);
 
@@ -150,7 +149,6 @@ function App() {
     "vishy",
     "zWANZ3"
   ];
-  
 
   return (
     <Container>
@@ -178,10 +176,20 @@ function App() {
           type="text"
           value={username}
           readOnly
-          disabled={username=='Your Username Here'}
-          onClick={() => {navigator.clipboard.writeText(username)}}
+          disabled={username == "Your Username Here"}
+          onClick={() => {
+            navigator.clipboard.writeText(username);
+          }}
         />
-        <Button disabled={username=='Your Username Here'} variant="primary" onClick={() => {navigator.clipboard.writeText(username)}}>Copy</Button>
+        <Button
+          disabled={username == "Your Username Here"}
+          variant="primary"
+          onClick={() => {
+            navigator.clipboard.writeText(username);
+          }}
+        >
+          Copy
+        </Button>
       </InputGroup>
       <Button variant="primary" onClick={() => updateUsername()}>
         Generate new username
