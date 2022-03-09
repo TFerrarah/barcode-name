@@ -1,3 +1,4 @@
+import { useState } from "react";
 import styled from "styled-components";
 import RandExp from "randexp";
 import GlobalFonts from "./fonts/fonts";
@@ -5,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import { InputGroup } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import Spinner from 'react-bootstrap/Spinner'
 
 function App() {
   const Container = styled.div`
@@ -15,7 +16,7 @@ function App() {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 1.5rem
+    gap: 1.5rem;
   `;
 
   //Title
@@ -80,7 +81,7 @@ function App() {
     user-select: none;
   `;
 
-  //State management
+  //legacy text style state
   const [isLegacy, setLegacy] = useState(false);
 
   function handleSwitch() {
@@ -90,8 +91,45 @@ function App() {
   //username state
   const [username, setUsername] = useState("Your Username Here");
 
+  //loader state
+
+  const [isLoading, setLoading] = useState(false);
+
   function updateUsername() {
-    setUsername(new RandExp("^[Il]{10,16}$").gen());
+    
+    //StatsDB check
+
+    let userId = "1726831700015439";
+    let password = "e82e21dd203c0454c4a2420a2f904cda";
+    let usernameToSearch = new RandExp("^[Il]{10,16}$").gen();
+    console.log('username to search: '+usernameToSearch);
+
+    let token = btoa(userId + ":" + password);
+
+    //Loader state set to true
+    setLoading(true);
+    fetch("https://staging-api.statsdb.net/r6/namecheck/" + usernameToSearch, {
+      credentials: "include",
+      headers: {
+        Authorization: "Basic " + token
+      }
+    })
+      .then((resp) => {
+        return resp.json();
+      })
+      .then((data) => {
+        console.log(data);
+        //Loader state set to false
+        setLoading(false);
+        if (data.payload.exists) console.log("Username is taken!");
+        else {
+          console.log("Username is available!");
+          setUsername(usernameToSearch);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   }
 
   //Random usernames
@@ -110,8 +148,6 @@ function App() {
     "vishy",
     "zWANZ3"
   ];
-
-  //Clipboard handling
   
 
   return (
@@ -135,7 +171,6 @@ function App() {
         checked={isLegacy}
         onChange={() => handleSwitch()}
       />
-      
       <InputGroup className="w-50">
         <FormControl
           type="text"
@@ -149,6 +184,7 @@ function App() {
       <Button variant="primary" onClick={() => updateUsername()}>
         Generate new username
       </Button>
+      {isLoading && <Spinner animation="grow" variant="info" />}
     </Container>
   );
 }
