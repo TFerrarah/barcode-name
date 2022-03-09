@@ -1,9 +1,13 @@
-import styled from 'styled-components';
-import RandExp from 'randexp';
-import GlobalFonts from './fonts/fonts';
+import styled from "styled-components";
+import RandExp from "randexp";
+import GlobalFonts from "./fonts/fonts";
+import Form from "react-bootstrap/Form";
+import FormControl from "react-bootstrap/FormControl";
+import { InputGroup } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import { useState } from "react";
 
 function App() {
-
   const Container = styled.div`
     height: 100vh;
     width: 100vw;
@@ -11,52 +15,61 @@ function App() {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 1.5rem
   `;
 
   //Title
-  const ReactBootstrapH1 = ({className, children}) => {
-    return <h1 className={className}>
-      {children}
-    </h1>
-  }
+  const ReactBootstrapH1 = ({ className, children }) => {
+    return <h1 className={className}>{children}</h1>;
+  };
 
   const Title = styled(ReactBootstrapH1)`
     font-size: 3rem;
     font-weight: bold;
-  `
+  `;
 
   //Subtitle
-  const ReactBootstrapH4 = ({className, children}) => {
-    return <h4 className={className}>
-      {children}
-    </h4>
-  }
+  const ReactBootstrapH4 = ({ className, children }) => {
+    return <h4 className={className}>{children}</h4>;
+  };
 
   const Subtitle = styled(ReactBootstrapH4)`
     font-weight: 500;
-  `
+  `;
 
   //R6 Name
   const R6Name = styled(ReactBootstrapH4)`
-    font-family: 'Scout Condensed';
+    font-family: "Scout Condensed";
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 2rem;
     color: white;
     padding: 0 0.6rem;
     margin: 0;
-    background-color: ${props => props.bg == "blue" ? '#1387E1' : props.bg == "red" ? '#FF3131' : props.bg == "orange" ? '#FF932E' : "#242424"};
-    -webkit-text-stroke: ${props => props.legacy ? '0.6px black' : 0};
-  `
+    background-color: ${(props) =>
+      props.bg == "blue"
+        ? "#1387E1"
+        : props.bg == "red"
+        ? "#FF3131"
+        : props.bg == "orange"
+        ? "#FF932E"
+        : "#242424"};
+    -webkit-text-stroke: ${(props) => (props.legacy ? "0.6px black" : 0)};
+  `;
+
   //gun icon
-  const gunImage = ({src, className, children}) => {
-    return <img src={src} className={className}>
-      {children}
-    </img>
-  }
+  const gunImage = ({ src, className, children }) => {
+    return (
+      <img src={src} className={className}>
+        {children}
+      </img>
+    );
+  };
   const GunIcon = styled(gunImage)`
-    height: 1.2rem;
+    height: 2.4rem;
     background-color: white;
-  `
+    filter: invert();
+  `;
+
   //KillFeed
   const KillFeed = styled.div`
     display: flex;
@@ -64,7 +77,41 @@ function App() {
     justify-content: center;
     align-items: center;
     height: auto;
+    user-select: none;
   `;
+
+  //State management
+  const [isLegacy, setLegacy] = useState(false);
+
+  function handleSwitch() {
+    setLegacy(!isLegacy);
+  }
+
+  //username state
+  const [username, setUsername] = useState("Your Username Here");
+
+  function updateUsername() {
+    setUsername(new RandExp("^[Il]{10,16}$").gen());
+  }
+
+  //Random usernames
+  const usernames = [
+    "Pengu.g2",
+    "Beaulo.TSMFTX",
+    "Crif14.NT",
+    "FD_ForKio",
+    "Terrorist",
+    "stonks.alien",
+    "VG_Rahkwal",
+    "MyIanaCondaDont",
+    "MacAruniNoodles",
+    "AshMainNoBrain",
+    "LilPxssy",
+    "vishy",
+    "zWANZ3"
+  ];
+
+  //Clipboard handling
   
 
   return (
@@ -73,12 +120,37 @@ function App() {
       <Title>Barcode Name Generator</Title>
       <Subtitle>Generate bullshit barcode names like this</Subtitle>
       <KillFeed>
-        <R6Name legacy bg={'orange'}>{new RandExp('^[Il]{10,16}$').gen()}</R6Name>
+        <R6Name legacy={isLegacy} bg={"blue"}>
+          {username}
+        </R6Name>
         <GunIcon src="https://static.wikia.nocookie.net/rainbowsix/images/d/d1/R4C_HUD_Icon_R6S.png"></GunIcon>
+        <R6Name legacy={isLegacy} bg={"orange"}>
+          {usernames[Math.floor(Math.random() * usernames.length)]}
+        </R6Name>
       </KillFeed>
-      <input type="checkbox" />
+      <Form.Check
+        type="switch"
+        id="custom-switch"
+        label="Enable legacy Text"
+        checked={isLegacy}
+        onChange={() => handleSwitch()}
+      />
+      
+      <InputGroup className="w-50">
+        <FormControl
+          type="text"
+          value={username}
+          readOnly
+          disabled={username=='Your Username Here'}
+          onClick={() => {navigator.clipboard.writeText(username)}}
+        />
+        <Button disabled={username=='Your Username Here'} variant="primary" onClick={() => {navigator.clipboard.writeText(username)}}>Copy</Button>
+      </InputGroup>
+      <Button variant="primary" onClick={() => updateUsername()}>
+        Generate new username
+      </Button>
     </Container>
-  )
+  );
 }
 
-export default App
+export default App;
