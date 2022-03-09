@@ -21,6 +21,7 @@ function App() {
   }
 
   const Title = styled(ReactBootstrapH1)`
+    font-size: 3rem;
     font-weight: bold;
   `
 
@@ -39,18 +40,34 @@ function App() {
   const R6Name = styled(ReactBootstrapH4)`
     font-family: 'Scout Condensed';
     font-weight: bold;
+    font-size: 1.2rem;
     color: white;
     padding: 0 0.6rem;
-    background-color: #1387E1;
+    margin: 0;
+    background-color: ${ReactBootstrapH4};
+    /* background-color: #1387E1;
     background-color: #FF3131;
-    background-color: #FF932E;
+    background-color: #FF932E; */
     /* -webkit-text-stroke: 0.1px black; */
   `
-
   //gun icon
-  const gunIcon = styled.div`
-    background-color: black;
+  const gunImage = ({src, className, children}) => {
+    return <img src={src} className={className}>
+      {children}
+    </img>
+  }
+  const GunIcon = styled(gunImage)`
+    height: 1.2rem;
+    background-color: white;
   `
+  //KillFeed
+  const KillFeed = styled.div`
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+  `;
   
 
   return (
@@ -58,7 +75,10 @@ function App() {
       <GlobalFonts />
       <Title>Barcode Name Generator</Title>
       <Subtitle>Generate bullshit barcode names like this</Subtitle>
-      <R6Name>{new RandExp('^[Il]{10,16}$').gen()}</R6Name>
+      <KillFeed>
+        <R6Name bg={'#FF3131'}>{new RandExp('^[Il]{10,16}$').gen()}</R6Name>
+        <GunIcon src="https://static.wikia.nocookie.net/rainbowsix/images/d/d1/R4C_HUD_Icon_R6S.png"></GunIcon>
+      </KillFeed>
     </Container>
   )
 }
