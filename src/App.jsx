@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import RandExp from "randexp";
 import GlobalFonts from "./fonts/fonts";
@@ -7,6 +6,9 @@ import FormControl from "react-bootstrap/FormControl";
 import { InputGroup } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Spinner from 'react-bootstrap/Spinner'
+
+import React, { useState } from "react";
+import AdSense from 'react-adsense';
 
 function App() {
   const Container = styled.div`
@@ -109,7 +111,7 @@ function App() {
     //Loader state set to true
     setLoading(true);
     fetch("https://staging-api.statsdb.net/r6/namecheck/" + usernameToSearch, {
-      credentials: "include",
+      credentials: "omit",
       headers: {
         Authorization: "Basic " + token
       }
@@ -185,6 +187,15 @@ function App() {
         Generate new username
       </Button>
       {isLoading && <Spinner animation="grow" variant="info" />}
+      {/* ads */}
+      {/* <AdSense.Google
+        client='ca-pub-7292810486004926'
+        slot='7806394673'
+        style={{ display: 'block' }}
+        format='auto'
+        responsive='true'
+        layoutKey='-gw-1+2a-9x+5c'
+      /> */}
     </Container>
   );
 }
