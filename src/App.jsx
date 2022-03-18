@@ -100,8 +100,8 @@ function App() {
   function updateUsername() {
     //StatsDB check
 
-    let userId = "1726831700015439";
-    let password = "e82e21dd203c0454c4a2420a2f904cda";
+    let userId = process.env.STATSDB_USERID;
+    let password = process.env.STATSDB_PASSWORD;
     let usernameToSearch = new RandExp("^[Il]{10,16}$").gen();
     console.log("username to search: " + usernameToSearch);
 
