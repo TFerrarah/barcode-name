@@ -102,8 +102,8 @@ function App() {
 
     console.log(env);
 
-    let userId = process.env.STARSDB_USERID;
-    let password = process.env.STARSDB_PASSWORD;
+    let userId = import.meta.env.STARSDB_USERID;
+    let password = import.meta.env.STARSDB_PASSWORD;
     let usernameToSearch = new RandExp("^[Il]{10,16}$").gen();
     console.log("username to search: " + usernameToSearch);
 
