@@ -100,8 +100,6 @@ function App() {
   function updateUsername() {
     //StatsDB check
 
-    console.log(env);
-
     let userId = import.meta.env.STARSDB_USERID;
     let password = import.meta.env.STARSDB_PASSWORD;
     let usernameToSearch = new RandExp("^[Il]{10,16}$").gen();
